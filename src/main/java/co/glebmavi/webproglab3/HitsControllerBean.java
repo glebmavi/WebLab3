@@ -12,7 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class HitsControllerBean implements Serializable {
         this.hits = hits;
     }
 
-    public void newHit(final double x, final double y, final double r) {
+    public void newHit(final double x, final double y, final double r, final String timezone) {
         final Hit currHit = new Hit();
         final long startExec = System.currentTimeMillis();
         final boolean isHit = AreaHitChecker.isHit(x, y, r);
@@ -46,20 +47,20 @@ public class HitsControllerBean implements Serializable {
         currHit.setY(y);
         currHit.setR(r);
         currHit.setHit(isHit);
-        currHit.setCurr_date(String.valueOf(LocalDateTime.now()));
-        currHit.setExec_time(String.valueOf(executionTime));
+        currHit.setCurr_date(Date.from(Instant.now()));
+        currHit.setExec_time(executionTime);
         DAOFactory.getInstance().getResultDAO().addNewHit(currHit);
 //        FacesContext.getCurrentInstance().getPartialViewContext().getEvalScripts().add("drawPointXYRRes(" + x + ", " + y + ", " + r + ", " + isHit + ");");//TODO: reemplazar por js correcto
         hits.addFirst(currHit);
     }
 
-    public void newHit(final List<Double> x, final double y, final double r) {
+    public void newHit(final List<Double> x, final double y, final double r, final String timezone) {
         for (Double xValue : x) {
-            newHit(xValue, y, r);
+            newHit(xValue, y, r, timezone);
         }
     }
 
-    public void clearHit() {
+    public void clearHits() {
         hits.clear();
         try {
             DAOFactory.getInstance().getResultDAO().clearHits();

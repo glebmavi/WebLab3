@@ -481,6 +481,59 @@ function localeManager() {
 }
 
 
+/***/ }),
+/* 9 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getTimezone: () => (/* binding */ getTimezone),
+/* harmony export */   tableModificationListener: () => (/* binding */ tableModificationListener)
+/* harmony export */ });
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function getTimezone() {
+  document.getElementById('form:timezoneField').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+function tableModificationListener() {
+  // called once on page load
+  setToLocalTimeZone();
+  var table = document.getElementById('resultTable');
+  function handleTableModification(mutationsList, observer) {
+    mutationsList.forEach(function (mutation) {
+      if (mutation.type === 'childList' || mutation.type === 'attributes') {
+        setToLocalTimeZone();
+      }
+    });
+  }
+  var observer = new MutationObserver(handleTableModification);
+  var config = {
+    attributes: true,
+    childList: true,
+    subtree: true
+  };
+  observer.observe(table, config);
+}
+function setToLocalTimeZone() {
+  var elements = document.getElementsByClassName('tableDateTime');
+  var _iterator = _createForOfIteratorHelper(elements),
+    _step;
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var element = _step.value;
+      var utcDateTimeString = element.innerHTML;
+      var utcDateTime = new Date(utcDateTimeString);
+      element.innerHTML = utcDateTime.toLocaleString();
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+}
+
+
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -548,6 +601,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _resources_js_theme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
 /* harmony import */ var _resources_js_locale__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
 /* harmony import */ var _resources_js_drawFromTable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
+/* harmony import */ var _resources_js_timezone__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9);
+
 
 
 
@@ -557,6 +612,8 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener('DOMContentLoaded', function () {
   (0,_resources_js_theme__WEBPACK_IMPORTED_MODULE_3__.loadTheme)();
   (0,_resources_js_locale__WEBPACK_IMPORTED_MODULE_4__.localeManager)();
+  (0,_resources_js_timezone__WEBPACK_IMPORTED_MODULE_6__.getTimezone)();
+  // tableModificationListener();
   // formListener();
   // resetTable();
   // responseGetter();

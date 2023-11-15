@@ -16,6 +16,11 @@
     <link rel="icon" type="image/x-icon" href="assets/graph.svg" />
     <h:outputStylesheet library="styles" name="styles.css" />
     <h:outputScript library="dist" name="mainBundle.js" />
+    <script type="text/javascript">
+        function getTimezone() {
+            document.getElementById('form:timezoneField').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        }
+    </script>
 </h:head>
 
 <h:body>
@@ -82,9 +87,9 @@
                         </tr>
 
                     </table>
-
-                    <h:commandButton styleClass="submitButton" type="submit" id="submitButton" value="#{msg['index.send']}">
-                        <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.selectedX, selectYBean.y, selectRBean.r)}" render="@form resultTable"/>
+                    <h:inputHidden id="timezoneField" value="#{timeZoneBean.timeZone}"/>
+                    <h:commandButton styleClass="submitButton" type="submit" id="submitButton" value="#{msg['index.send']}" onclick="getTimezone()">
+                        <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.selectedX, selectYBean.y, selectRBean.r, timeZoneBean.timeZone)}" render="@form resultTable"/>
                     </h:commandButton>
                 </h:form>
             </td>
@@ -93,7 +98,7 @@
         <tr>
             <td>
                 <h:commandButton id="resetTable" value="#{msg['index.reset']}">
-                    <f:ajax execute="@form" listener="#{hitsControllerBean.clearHit()}" />
+                    <f:ajax execute="@form" listener="#{hitsControllerBean.clearHits()}" />
                 </h:commandButton>
 
                 <h:dataTable id="resultTable" value="#{hitsControllerBean.hits}" var="hit" styleClass="tableWithBorder">
@@ -115,7 +120,9 @@
                     </h:column>
                     <h:column>
                         <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.time']}"/></f:facet>
-                        #{hit.curr_date}
+                        <h:outputText value="#{hit.curr_date}" styleClass="tableDateTime">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss z" timeZone="#{timeZoneBean.timeZone}"/>
+                        </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.executionTime']}"/></f:facet>
