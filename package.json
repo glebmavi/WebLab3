@@ -133,7 +133,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack & lessc src/main/webapp/styles.less src/main/webapp/styles.css"
+    "build": "webpack & lessc src/main/webapp/resources/styles/styles.less src/main/webapp/resources/styles/styles.css & lessc src/main/webapp/resources/styles/clock.less src/main/webapp/resources/styles/clock.css"
   },
   "author": "glebmavi",
   "license": "ISC",

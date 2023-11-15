@@ -14,8 +14,8 @@ ext {
     junitVersion = '5.9.2'
 }
 
-sourceCompatibility = '11'
-targetCompatibility = '11'
+sourceCompatibility = "16"
+targetCompatibility = "16"
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
@@ -25,11 +25,17 @@ dependencies {
     compileOnly('jakarta.platform:jakarta.jakartaee-api:10.0.0')
     compileOnly('jakarta.mvc:jakarta.mvc-api:2.1.0')
     compileOnly('jakarta.servlet:jakarta.servlet-api:6.0.0')
+    implementation("org.primefaces:primefaces:13.0.3:jakarta")
+    implementation("org.postgresql:postgresql:42.6.0")
+    compileOnly('org.eclipse.persistence:org.eclipse.persistence.jpars:4.0.2')
+    compileOnly("org.eclipse.persistence:eclipselink:4.0.2")
+    implementation("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0")
 
-    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+//    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
 }
 
 test {
