@@ -10,11 +10,12 @@ function drawFromTable() {
     const yValues = document.getElementsByClassName("yTableData");
     const rValues = document.getElementsByClassName("rTableData");
     const hitValues = document.getElementsByClassName("isHitTableData");
+    const rInput = document.getElementById('svgForm:hiddenSvgR')
     let rValue;
-    if (document.getElementById('RSelect') === null) {
+    if (rInput.value === "") {
         rValue = rValues[0].innerHTML
     } else {
-        rValue = document.getElementById('RSelect').value;
+        rValue = rInput.value;
     }
     drawR(rValue, RText, RHalfText, MinusRHalfText, MinusRText);
     for (let i = 0; i < xValues.length; i++) {

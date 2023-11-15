@@ -37,7 +37,7 @@ public class HitsControllerBean implements Serializable {
         this.hits = hits;
     }
 
-    public void newHit(final double x, final double y, final double r, final String timezone) {
+    public void newHit(final double x, final double y, final double r) {
         final Hit currHit = new Hit();
         final long startExec = System.currentTimeMillis();
         final boolean isHit = AreaHitChecker.isHit(x, y, r);
@@ -54,9 +54,9 @@ public class HitsControllerBean implements Serializable {
         hits.addFirst(currHit);
     }
 
-    public void newHit(final List<Double> x, final double y, final double r, final String timezone) {
+    public void newHit(final List<Double> x, final double y, final double r) {
         for (Double xValue : x) {
-            newHit(xValue, y, r, timezone);
+            newHit(xValue, y, r);
         }
     }
 

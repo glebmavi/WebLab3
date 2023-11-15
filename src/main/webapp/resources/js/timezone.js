@@ -1,5 +1,7 @@
 function getTimezone() {
-    document.getElementById('form:timezoneField').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timezoneField = document.getElementById('form:timezoneField');
+    timezoneField.value = timezone;
 }
 
 export {getTimezone};

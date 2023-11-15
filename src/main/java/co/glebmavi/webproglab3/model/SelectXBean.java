@@ -13,6 +13,16 @@ public class SelectXBean implements Serializable {
 
     private final List<Double> selectedX;
 
+    private Double svgX;
+
+    public Double getSvgX() {
+        return svgX;
+    }
+
+    public void setSvgX(Double svgX) {
+        this.svgX = svgX;
+    }
+
     public SelectXBean() {
         selectedX = new ArrayList<>();
     }

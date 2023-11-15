@@ -15,6 +15,15 @@ import java.util.ResourceBundle;
 @SessionScoped
 public class SelectYBean implements Serializable {
     private Double y;
+    private Double svgY;
+
+    public Double getSvgY() {
+        return svgY;
+    }
+
+    public void setSvgY(Double svgY) {
+        this.svgY = svgY;
+    }
 
     public Double getY() {
         return y;
@@ -26,14 +35,22 @@ public class SelectYBean implements Serializable {
 
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         if (value == null) {
-            throw new ValidatorException(new FacesMessage(ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale()).getString( "yRequired")));
+            FacesMessage message = new FacesMessage(
+                    ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale())
+                            .getString("yRequired"));
+            context.addMessage(component.getClientId(context), message);
+            throw new ValidatorException(message);
         }
 
         double yValue = Double.parseDouble(value.toString());
         Object[] args = {AreaHitChecker.MIN_Y, AreaHitChecker.MAX_Y};
-        String message = MessageFormat.format(ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale()).getString("index.yMessage.default"), args);
+        String messageText = MessageFormat.format(ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale())
+                .getString("index.yMessage.default"), args);
+
         if (yValue < -3 || yValue > 5) {
-            throw new ValidatorException(new FacesMessage(message));
+            FacesMessage message = new FacesMessage(messageText);
+            context.addMessage(component.getClientId(context), message);
+            throw new ValidatorException(message);
         }
     }
 }
