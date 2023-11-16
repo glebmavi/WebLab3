@@ -90,7 +90,7 @@
                             </td>
                             <td class="formRow">
                                 <ui:repeat value="#{selectableOptions.linkRValues}" var="value">
-                                    <div class="valueButton inputField">
+                                    <div class="valueButton inputField" style="padding: 0">
                                         <p:commandLink styleClass="p_commandLink" value="#{value}">
                                             <f:ajax listener="#{selectRBean.updateR(value)}" render="@form svgForm:hiddenSvgR" onevent="updateR"/>
                                         </p:commandLink>
