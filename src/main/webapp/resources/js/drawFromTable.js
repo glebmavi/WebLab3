@@ -12,14 +12,18 @@ function drawFromTable() {
     const hitValues = document.getElementsByClassName("isHitTableData");
     const rInput = document.getElementById('svgForm:hiddenSvgR')
     let rValue;
-    if (rInput.value === "") {
+    if (rInput.value === "" && rValues.length !== 0) {
         rValue = rValues[0].innerHTML
-    } else {
+    } else if (rInput.value !== "") {
         rValue = rInput.value;
+    } else {
+        return;
     }
     drawR(rValue, RText, RHalfText, MinusRHalfText, MinusRText);
     for (let i = 0; i < xValues.length; i++) {
-        drawPoint(xValues[i].innerHTML, yValues[i].innerHTML, rValue, svgGraph, hitValues[i].innerHTML);
+        if (rValues[i].innerHTML === rValue) {
+            drawPoint(xValues[i].innerHTML, yValues[i].innerHTML, rValue, svgGraph, hitValues[i].innerHTML);
+        }
     }
 
 }

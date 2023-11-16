@@ -1,10 +1,22 @@
 import {drawR, removePoints} from "./drawer.js";
-import {drawFromTable} from "./drawFromTable";
+import {drawFromTable} from "./drawFromTable.js";
 
 const svgWidth = 400;
 const svgHeight = 400;
 
-function formListener() {
+const translations = {
+    "en": {
+        "selectR": "Select R first",
+    },
+    "ru": {
+        "selectR": "Сначала выберите R",
+    },
+    "es": {
+        "selectR": "Seleccione R primero",
+    },
+};
+
+function formListener(locale) {
     const rInputElement = document.getElementById('svgForm:hiddenSvgR');
     const svgGraph = document.getElementById('svgGraph');
     const hiddenX = document.getElementById('svgForm:hiddenSvgX');
@@ -13,6 +25,8 @@ function formListener() {
     const yText = document.getElementById("svgY");
     let x, y;
     svgGraph.onmousemove = function (event) {
+        const rMessage = document.getElementById("svgForm:RMessage");
+        rMessage.innerHTML = "";
         if (rInputElement.value !== "") {
             x = (event.offsetX - (svgWidth/2)) / ((svgWidth*(3/10))/rInputElement.value);
             y = (event.offsetY - (svgHeight/2)) / ((svgHeight*(-3/10))/rInputElement.value);
@@ -20,11 +34,12 @@ function formListener() {
             hiddenY.value = y.toFixed(3);
             xText.innerHTML = "X= " + x.toFixed(3);
             yText.innerHTML = "Y= " + y.toFixed(3);
+        } else {
+            rMessage.innerHTML = translations[locale].selectR;
         }
     };
     svgGraph.addEventListener('click', function (event) {
-        const button = document.getElementById('svgForm:svgFormButton');
-        button.click();
+        document.getElementById('svgForm:svgFormButton').click();
     });
 
 }
@@ -36,7 +51,9 @@ function handleRChange() {
     const MinusRText = document.getElementsByClassName("MinusRText");
     const rInputElement = document.getElementById('svgForm:hiddenSvgR');
 
-    rInputElement.addEventListener("change", function () {
+    rInputElement.addEventListener("valueChange", function () {
+        const rMessage = document.getElementById("svgForm:RMessage");
+        rMessage.innerHTML = "";
         drawR(rInputElement.value, RText, RHalfText, MinusRHalfText, MinusRText);
         removePoints();
         drawFromTable();

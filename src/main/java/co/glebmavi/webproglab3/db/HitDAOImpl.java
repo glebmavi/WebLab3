@@ -48,6 +48,8 @@ public class HitDAOImpl implements HitDAO {
 
     @Override
     public void clearHits() {
-        entityManager.clear();
+        entityManager.getTransaction().begin();
+        entityManager.createQuery("DELETE FROM Hit").executeUpdate();
+        entityManager.getTransaction().commit();
     }
 }

@@ -11,12 +11,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   handleRChange: () => (/* binding */ handleRChange)
 /* harmony export */ });
 /* harmony import */ var _drawer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _drawFromTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony import */ var _drawFromTable_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
 var svgWidth = 400;
 var svgHeight = 400;
-function formListener() {
+var translations = {
+  "en": {
+    "selectR": "Select R first"
+  },
+  "ru": {
+    "selectR": "Сначала выберите R"
+  },
+  "es": {
+    "selectR": "Seleccione R primero"
+  }
+};
+function formListener(locale) {
   var rInputElement = document.getElementById('svgForm:hiddenSvgR');
   var svgGraph = document.getElementById('svgGraph');
   var hiddenX = document.getElementById('svgForm:hiddenSvgX');
@@ -25,6 +36,8 @@ function formListener() {
   var yText = document.getElementById("svgY");
   var x, y;
   svgGraph.onmousemove = function (event) {
+    var rMessage = document.getElementById("svgForm:RMessage");
+    rMessage.innerHTML = "";
     if (rInputElement.value !== "") {
       x = (event.offsetX - svgWidth / 2) / (svgWidth * (3 / 10) / rInputElement.value);
       y = (event.offsetY - svgHeight / 2) / (svgHeight * (-3 / 10) / rInputElement.value);
@@ -32,11 +45,12 @@ function formListener() {
       hiddenY.value = y.toFixed(3);
       xText.innerHTML = "X= " + x.toFixed(3);
       yText.innerHTML = "Y= " + y.toFixed(3);
+    } else {
+      rMessage.innerHTML = translations[locale].selectR;
     }
   };
   svgGraph.addEventListener('click', function (event) {
-    var button = document.getElementById('svgForm:svgFormButton');
-    button.click();
+    document.getElementById('svgForm:svgFormButton').click();
   });
 }
 function handleRChange() {
@@ -45,10 +59,12 @@ function handleRChange() {
   var MinusRHalfText = document.getElementsByClassName("MinusRHalfText");
   var MinusRText = document.getElementsByClassName("MinusRText");
   var rInputElement = document.getElementById('svgForm:hiddenSvgR');
-  rInputElement.addEventListener("change", function () {
+  rInputElement.addEventListener("valueChange", function () {
+    var rMessage = document.getElementById("svgForm:RMessage");
+    rMessage.innerHTML = "";
     (0,_drawer_js__WEBPACK_IMPORTED_MODULE_0__.drawR)(rInputElement.value, RText, RHalfText, MinusRHalfText, MinusRText);
     (0,_drawer_js__WEBPACK_IMPORTED_MODULE_0__.removePoints)();
-    (0,_drawFromTable__WEBPACK_IMPORTED_MODULE_1__.drawFromTable)();
+    (0,_drawFromTable_js__WEBPACK_IMPORTED_MODULE_1__.drawFromTable)();
   });
 }
 
@@ -160,14 +176,18 @@ function drawFromTable() {
   var hitValues = document.getElementsByClassName("isHitTableData");
   var rInput = document.getElementById('svgForm:hiddenSvgR');
   var rValue;
-  if (rInput.value === "") {
+  if (rInput.value === "" && rValues.length !== 0) {
     rValue = rValues[0].innerHTML;
-  } else {
+  } else if (rInput.value !== "") {
     rValue = rInput.value;
+  } else {
+    return;
   }
   (0,_drawer__WEBPACK_IMPORTED_MODULE_0__.drawR)(rValue, RText, RHalfText, MinusRHalfText, MinusRText);
   for (var i = 0; i < xValues.length; i++) {
-    (0,_drawer__WEBPACK_IMPORTED_MODULE_0__.drawPoint)(xValues[i].innerHTML, yValues[i].innerHTML, rValue, svgGraph, hitValues[i].innerHTML);
+    if (rValues[i].innerHTML === rValue) {
+      (0,_drawer__WEBPACK_IMPORTED_MODULE_0__.drawPoint)(xValues[i].innerHTML, yValues[i].innerHTML, rValue, svgGraph, hitValues[i].innerHTML);
+    }
   }
 }
 
@@ -250,12 +270,38 @@ function localeManager() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   getTimezone: () => (/* binding */ getTimezone)
+/* harmony export */   convertToUserTimeZone: () => (/* binding */ convertToUserTimeZone)
 /* harmony export */ });
-function getTimezone() {
-  var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  var timezoneField = document.getElementById('form:timezoneField');
-  timezoneField.value = timezone;
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function convertToUserTimeZone(locale) {
+  var dates = document.getElementsByClassName("tableDateTime");
+  var _iterator = _createForOfIteratorHelper(dates),
+    _step;
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var dateElement = _step.value;
+      var dateString = dateElement.innerHTML;
+      var parts = dateString.split(/[ .:]/);
+
+      // Note: months are 0-indexed in JavaScript Date object, so we subtract 1 from the month
+      var originalDate = new Date(Date.UTC(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]));
+      dateElement.innerHTML = originalDate.toLocaleString(locale, {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        timeZoneName: "shortOffset"
+      });
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
 }
 
 
@@ -333,8 +379,9 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener('DOMContentLoaded', function () {
   (0,_resources_js_theme__WEBPACK_IMPORTED_MODULE_1__.loadTheme)();
   (0,_resources_js_locale__WEBPACK_IMPORTED_MODULE_2__.localeManager)();
-  (0,_resources_js_timezone__WEBPACK_IMPORTED_MODULE_4__.getTimezone)();
-  (0,_resources_js_variablesVerification__WEBPACK_IMPORTED_MODULE_0__.formListener)();
+  var locale = document.documentElement.lang;
+  (0,_resources_js_timezone__WEBPACK_IMPORTED_MODULE_4__.convertToUserTimeZone)(locale);
+  (0,_resources_js_variablesVerification__WEBPACK_IMPORTED_MODULE_0__.formListener)(locale);
   (0,_resources_js_variablesVerification__WEBPACK_IMPORTED_MODULE_0__.handleRChange)();
   (0,_resources_js_drawFromTable__WEBPACK_IMPORTED_MODULE_3__.drawFromTable)();
 });

@@ -166,7 +166,7 @@ button:disabled {
 .submitButton:active {
   background-color: #115511;
 }
-#resetTable {
+.resetButton {
   color: var(--text-color);
   border: none;
   border-radius: 5px;
@@ -176,21 +176,21 @@ button:disabled {
   margin: 14px;
   padding: 6px;
   background-color: #AA2222;
-  font-size: 12px;
+  font-size: 16px;
 }
-#resetTable:active {
+.resetButton:active {
   transform: translateY(2px);
   box-shadow: #cccccc 2px 2px 5px;
 }
-#resetTable:disabled {
+.resetButton:disabled {
   background-color: #ccc;
   color: #999;
   cursor: not-allowed;
 }
-#resetTable:hover {
+.resetButton:hover {
   background-color: #801a1a;
 }
-#resetTable:active {
+.resetButton:active {
   background-color: #551111;
 }
 .backButton,
@@ -235,7 +235,7 @@ button:disabled {
   margin: 20px;
   padding: 10px;
   background-color: #3399FF;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: normal;
   text-decoration: none;
   display: inline-block;
@@ -275,7 +275,7 @@ button:disabled {
   margin: 20px;
   padding: 10px;
   background-color: #3399FF;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: normal;
   text-decoration: none;
   display: inline-block;
@@ -340,6 +340,7 @@ button:disabled {
   font-weight: normal;
   text-decoration: none;
   color: var(--text-color);
+  font-size: 16px;
 }
 .p_commandLink:hover {
   text-decoration: none;
@@ -349,6 +350,7 @@ button:disabled {
   font-weight: normal;
   text-decoration: none;
   color: var(--text-color);
+  font-size: 16px;
 }
 .valueButton > .p_commandLink:hover {
   text-decoration: none;

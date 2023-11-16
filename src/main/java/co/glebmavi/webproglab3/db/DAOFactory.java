@@ -10,7 +10,7 @@ public class DAOFactory {
         return instance;
     }
 
-    public HitDAO getResultDAO() {
+    public HitDAO getHitDAO() {
         if (hitDAO == null)
             hitDAO = new HitDAOImpl();
         return hitDAO;
