@@ -32,6 +32,7 @@ public class SelectXBean implements Serializable {
             selectedX.remove(clickedValue);
         } else {
             selectedX.add(clickedValue);
+
         }
     }
 

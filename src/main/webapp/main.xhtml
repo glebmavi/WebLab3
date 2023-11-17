@@ -78,7 +78,7 @@
                                 <h:outputText value="Y= #{selectYBean.y}" id="yValue"/>
                             </td>
                             <td class="formRow">
-                                <p:inputNumber id="Ytext" value="#{selectYBean.y}" minValue="-3" maxValue="5" validator="#{selectYBean.validate}" styleClass="textInput">
+                                <p:inputNumber id="Ytext" value="#{selectYBean.y}" validator="#{selectYBean.validate}" styleClass="textInput">
                                     <f:ajax execute="Ytext" render="@form yValue YMessage"/>
                                 </p:inputNumber>
                             </td>
@@ -107,8 +107,8 @@
                         <tr>
                             <td class="valueMarker"/>
                             <td class="formRow">
-                                <p:commandButton styleClass="submitButton" type="submit" id="submitButton" value="#{msg['index.send']}" >
-                                    <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.selectedX, selectYBean.y, selectRBean.r)}" render="@form resultTable" onevent="updateR"/>
+                                <p:commandButton styleClass="submitButton" type="submit" id="submitButton" value="#{msg['index.send']}" disabled="#{submitButton.disable}">
+                                    <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.selectedX, selectYBean.y, selectRBean.r)}" render="@form resultTable" onevent="updateR" />
                                 </p:commandButton>
                             </td>
                             <td class="leftColumn"/>

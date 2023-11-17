@@ -11,10 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 @Named
@@ -52,7 +49,6 @@ public class HitsControllerBean implements Serializable {
         final long executionTime = endExec - startExec;
         currHit.setExec_time(executionTime);
         DAOFactory.getInstance().getHitDAO().addNewHit(currHit);
-//        FacesContext.getCurrentInstance().getPartialViewContext().getEvalScripts().add("drawPointXYRRes(" + x + ", " + y + ", " + r + ", " + isHit + ");");//TODO: reemplazar por js correcto
         hits.addFirst(currHit);
     }
 
