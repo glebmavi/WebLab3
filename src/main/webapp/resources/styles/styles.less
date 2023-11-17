@@ -248,15 +248,28 @@ button {
 }
 
 #hat {
-  position: absolute;
   top: 1%;
   right: 1%;
   width: 100%;
   height: 50px;
   background-color: transparent;
+  display: flex;
 }
 
-.hatDivElement {
+#toggleTheme {
+  position: relative;
+  top: 50%;
+  left: @leftToggleLocale - 2%;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: transparent;
+  transform: translateY(-50%);
+
+  &:hover {
+    background-color: @hoverColor;
+  }
   img {
     width: 25px;
     height: 25px;
@@ -269,47 +282,40 @@ button {
     }
   }
 }
-
-#toggleTheme {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  margin: 5px;
-  padding: 5px;
-  border-radius: 5px;
-  background-color: transparent;
-  transform: translateY(-50%);
-
-  &:hover {
-    background-color: @hoverColor;
-  }
-
-  .hatDivElement();
-}
-
-@rightLocale: 3%;
+@leftToggleLocale: 93%;
 #toggleLocale {
-  position: absolute;
+  position: relative;
   top: 50%;
-  right: @rightLocale;
-  margin: 5px;
+  left: @leftToggleLocale;
+  margin-left: 5px;
+  margin-right: 5px;
   padding: 5px;
   border-radius: 5px;
   transform: translateY(-50%);
   background-color: transparent;
 
-  .hatDivElement();
+  img {
+    width: 25px;
+    height: 25px;
+    margin: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.3);
+    }
+  }
 
   &:hover {
     background-color: @hoverColor;
   }
 }
 
-#localeSelect {
+.localeSelect {
+  position: relative;
   display: none;
-  position: absolute;
+  left: @leftToggleLocale - 5%;
   top: 100%;
-  right: @rightLocale;
   border-radius: 5px;
   background-color: transparent;
 }

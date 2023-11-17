@@ -253,12 +253,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function localeManager() {
   var localeButton = document.getElementById("toggleLocale");
-  var localeSelect = document.getElementById("localeSelect");
+  var localeForm = document.getElementById("localeForm");
   localeButton.addEventListener("click", function () {
-    if (localeSelect.style.display === "block") {
-      localeSelect.style.display = "none";
+    if (localeForm.style.display === "block") {
+      localeForm.style.display = "none";
     } else {
-      localeSelect.style.display = "block";
+      localeForm.style.display = "block";
     }
   });
 }

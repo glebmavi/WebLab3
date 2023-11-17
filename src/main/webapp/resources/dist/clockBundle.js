@@ -1,13 +1,17 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
 function clock() {
+  var locale = document.documentElement.lang;
   var now = new Date();
-  var hours = now.getHours().toString().padStart(2, '0');
-  var minutes = now.getMinutes().toString().padStart(2, '0');
-  var seconds = now.getSeconds().toString().padStart(2, '0');
-  var date = now.toLocaleDateString(); // Получаем текущую дату
-
-  document.getElementById('clock').innerHTML = hours + ':' + minutes + ':' + seconds + '<br>' + date;
+  document.getElementById('clock').innerHTML = now.toLocaleString(locale, {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "shortOffset",
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
 }
 
 // Update the clock immediately

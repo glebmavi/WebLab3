@@ -1,11 +1,11 @@
 function localeManager() {
     const localeButton = document.getElementById("toggleLocale");
-    const localeSelect = document.getElementById("localeSelect");
+    const localeForm = document.getElementById("localeForm");
     localeButton.addEventListener("click", () => {
-        if (localeSelect.style.display === "block") {
-            localeSelect.style.display = "none";
+        if (localeForm.style.display === "block") {
+            localeForm.style.display = "none";
         } else {
-            localeSelect.style.display = "block";
+            localeForm.style.display = "block";
         }
     });
 }

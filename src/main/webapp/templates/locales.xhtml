@@ -4,17 +4,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-<div id="localeDiv" class="hatDivElement">
-    <button id="toggleLocale">
-        <img src="../assets/language-light.svg" alt="SVG Image" />
-    </button>
-    <h:form id="localeForm">
-        <div id="localeSelect">
-            <h:commandLink styleClass="localeOption" action="#{languageSwitcher.changeLanguage('en')}" value="English 🇬🇧"/>
-            <h:commandLink styleClass="localeOption" action="#{languageSwitcher.changeLanguage('ru')}" value="Русский 🇷🇺"/>
-            <h:commandLink styleClass="localeOption" action="#{languageSwitcher.changeLanguage('es')}" value="Español 🇨🇴"/>
-        </div>
-    </h:form>
-</div>
+<button id="toggleLocale">
+    <img src="../assets/language-light.svg" alt="SVG Image" />
+</button>
+<h:form id="localeForm" styleClass="localeSelect">
+    <div id="localeSelector">
+        <h:commandLink styleClass="localeOption" action="#{languageSwitcher.changeLanguage('en')}" value="English 🇬🇧"/>
+        <h:commandLink styleClass="localeOption" action="#{languageSwitcher.changeLanguage('ru')}" value="Русский 🇷🇺"/>
+        <h:commandLink styleClass="localeOption" action="#{languageSwitcher.changeLanguage('es')}" value="Español 🇨🇴"/>
+    </div>
+</h:form>
 
 </html>

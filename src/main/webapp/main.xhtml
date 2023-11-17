@@ -18,7 +18,11 @@
     <h:outputScript library="dist" name="mainBundle.js" />
     <script type="text/javascript">
         function updateR(data) {
+            if (data.status === "begin") {
+                document.body.style.cursor = 'wait';
+            }
             if (data.status === "success") {
+                document.body.style.cursor = 'auto';
                 const hiddenInput = document.getElementById("svgForm:hiddenSvgR");
                 const event = new Event("valueChange");
                 hiddenInput.dispatchEvent(event);
