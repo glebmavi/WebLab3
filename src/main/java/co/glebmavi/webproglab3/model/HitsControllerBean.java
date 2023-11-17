@@ -1,8 +1,6 @@
-package co.glebmavi.webproglab3;
+package co.glebmavi.webproglab3.model;
 
 import co.glebmavi.webproglab3.db.DAOFactory;
-import co.glebmavi.webproglab3.model.AreaHitChecker;
-import co.glebmavi.webproglab3.model.Hit;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.context.ExternalContext;

@@ -1,4 +1,4 @@
-package co.glebmavi.webproglab3;
+package co.glebmavi.webproglab3.viewUtils;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
