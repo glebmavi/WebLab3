@@ -257,7 +257,8 @@ button:disabled {
   text-decoration: none;
   color: var(--text-color);
 }
-.valueButton:active {
+.valueButton:active,
+.valueButton.active {
   background-color: #1a4d80;
 }
 .formRow {
@@ -297,7 +298,8 @@ button:disabled {
   text-decoration: none;
   color: var(--text-color);
 }
-.formRow > .valueButton:active {
+.formRow > .valueButton:active,
+.formRow > .valueButton.active {
   background-color: #1a4d80;
 }
 .formRow > .submitButton {

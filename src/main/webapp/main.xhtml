@@ -28,6 +28,10 @@
                 hiddenInput.dispatchEvent(event);
             }
         }
+
+        function toggleActiveState(button) {
+            button.classList.toggle('active');
+        }
     </script>
 </h:head>
 
@@ -65,8 +69,8 @@
                             </td>
                             <td class="formRow">
                                 <ui:repeat value="#{selectableOptions.buttonXValues}" var="value">
-                                    <h:commandButton styleClass="valueButton" value="#{value}">
-                                        <f:ajax listener="#{selectXBean.toggle(value)}" render="@form xValue"/>
+                                    <h:commandButton styleClass="valueButton xButton" value="#{value}" onclick="toggleActiveState(this)">
+                                        <f:ajax listener="#{selectXBean.toggle(value)}" render="form:xValue form:submitButton"/>
                                     </h:commandButton>
                                 </ui:repeat>
                             </td>
@@ -79,7 +83,7 @@
                             </td>
                             <td class="formRow">
                                 <p:inputNumber id="Ytext" value="#{selectYBean.y}" validator="#{selectYBean.validate}" styleClass="textInput">
-                                    <f:ajax execute="Ytext" render="@form yValue YMessage"/>
+                                    <f:ajax execute="Ytext" render="yValue YMessage form:submitButton"/>
                                 </p:inputNumber>
                             </td>
 
@@ -96,7 +100,7 @@
                                 <ui:repeat value="#{selectableOptions.linkRValues}" var="value">
                                     <div class="valueButton inputField" style="padding: 0">
                                         <p:commandLink styleClass="p_commandLink" value="#{value}">
-                                            <f:ajax listener="#{selectRBean.updateR(value)}" render="@form svgForm:hiddenSvgR" onevent="updateR"/>
+                                            <f:ajax listener="#{selectRBean.updateR(value)}" render="form:rValue svgForm:hiddenSvgR form:submitButton" onevent="updateR"/>
                                         </p:commandLink>
                                     </div>
                                 </ui:repeat>
@@ -108,7 +112,7 @@
                             <td class="valueMarker"/>
                             <td class="formRow">
                                 <p:commandButton styleClass="submitButton" type="submit" id="submitButton" value="#{msg['index.send']}" disabled="#{submitButton.disable}">
-                                    <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.selectedX, selectYBean.y, selectRBean.r)}" render="@form resultTable" onevent="updateR" />
+                                    <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.selectedX, selectYBean.y, selectRBean.r)}" render="resultTable" onevent="updateR" />
                                 </p:commandButton>
                             </td>
                             <td class="leftColumn"/>

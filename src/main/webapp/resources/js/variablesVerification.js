@@ -60,4 +60,20 @@ function handleRChange() {
     });
 }
 
-export {formListener, handleRChange};
+function activateXButtons() {
+    const xButtons = document.getElementsByClassName("xButton");
+    const xValues = document.getElementById("form:xValue").innerHTML;
+    let match = xValues.match(/[-.\d]+/g);
+    if (match !== null) {
+        match = match.map(parseFloat);
+        for (let button of xButtons) {
+            const buttonValue = parseFloat(button.value);
+
+            if (match.includes(buttonValue)) {
+                button.classList.toggle('active');
+            }
+        }
+    }
+}
+
+export {formListener, handleRChange, activateXButtons};

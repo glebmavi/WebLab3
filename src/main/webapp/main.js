@@ -1,4 +1,4 @@
-import {formListener, handleRChange} from "./resources/js/variablesVerification";
+import {activateXButtons, formListener, handleRChange} from "./resources/js/variablesVerification";
 import {loadTheme} from "./resources/js/theme";
 import {localeManager} from "./resources/js/locale";
 import {drawFromTable} from "./resources/js/drawFromTable";
@@ -12,4 +12,5 @@ document.addEventListener('DOMContentLoaded', function () {
     formListener(locale);
     handleRChange();
     drawFromTable();
+    activateXButtons();
 });

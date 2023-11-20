@@ -39,6 +39,7 @@ public class SelectYBean implements Serializable {
                     ResourceBundle.getBundle("i18n.messages", context.getViewRoot().getLocale())
                             .getString("yRequired"));
             context.addMessage(component.getClientId(context), message);
+            setY(null);
             throw new ValidatorException(message);
         }
 
@@ -50,6 +51,7 @@ public class SelectYBean implements Serializable {
         if (yValue < -3 || yValue > 5) {
             FacesMessage message = new FacesMessage(messageText);
             context.addMessage(component.getClientId(context), message);
+            setY(null);
             throw new ValidatorException(message);
         }
     }
