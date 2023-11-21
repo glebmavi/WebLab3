@@ -131,36 +131,36 @@
                             <f:ajax execute="@form" listener="#{hitsControllerBean.clearHits()}" render="@form resultTable"/>
                         </h:commandButton>
                     </h:form>
-
-                    <h:dataTable id="resultTable" value="#{hitsControllerBean.hits}" var="hit" styleClass="tableWithBorder" >
-                        <h:column>
-                            <f:facet name = "header">X</f:facet>
-                            <h:outputText value="#{hit.x}" styleClass="xTableData"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name = "header">Y</f:facet>
-                            <h:outputText value="#{hit.y}" styleClass="yTableData"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name = "header">R</f:facet>
-                            <h:outputText value="#{hit.r}" styleClass="rTableData"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.hit']}"/></f:facet>
-                            <h:outputText value="#{hit.hit}" styleClass="isHitTableData"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.time']}"/></f:facet>
-                            <h:outputText value="#{hit.curr_date}" styleClass="tableDateTime">
-                                <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss z"/>
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.executionTime']}"/></f:facet>
-                            #{hit.exec_time} ms
-                        </h:column>
-                    </h:dataTable>
-
+                    <div style="overflow: auto; height: 400px;">
+                        <h:dataTable id="resultTable" value="#{hitsControllerBean.hits}" var="hit" styleClass="tableWithBorder" >
+                            <h:column>
+                                <f:facet name = "header">X</f:facet>
+                                <h:outputText value="#{hit.x}" styleClass="xTableData"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name = "header">Y</f:facet>
+                                <h:outputText value="#{hit.y}" styleClass="yTableData"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name = "header">R</f:facet>
+                                <h:outputText value="#{hit.r}" styleClass="rTableData"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.hit']}"/></f:facet>
+                                <h:outputText value="#{hit.hit}" styleClass="isHitTableData"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.time']}"/></f:facet>
+                                <h:outputText value="#{hit.curr_date}" styleClass="tableDateTime">
+                                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss z"/>
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.executionTime']}"/></f:facet>
+                                #{hit.exec_time} ms
+                            </h:column>
+                        </h:dataTable>
+                    </div>
                 </td>
             </tr>
 
