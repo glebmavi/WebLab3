@@ -1,6 +1,7 @@
 package co.glebmavi.webproglab3.viewUtils;
 
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
@@ -8,11 +9,15 @@ import java.io.Serializable;
 import java.util.Locale;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class LanguageSwitcher implements Serializable {
 
-    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    private Locale locale;
 
+    @PostConstruct
+    public void init() {
+        locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+    }
     public Locale getLocale() {
         return locale;
     }
@@ -23,7 +28,7 @@ public class LanguageSwitcher implements Serializable {
 
     public void changeLanguage(String language) {
         locale = new Locale(language);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
 
 }

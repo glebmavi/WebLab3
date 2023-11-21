@@ -6,43 +6,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="jakarta.faces.facelets"
       xmlns:h="jakarta.faces.html"
-      lang="#{languageSwitcher.getLocale()}">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      lang="#{languageSwitcher.language}">
+<f:view locale="#{languageSwitcher.locale}">
+    <h:head>
+        <title><h:outputText value="#{msg['start.title']}"/></title>
+        <link rel="icon" type="image/x-icon" href="assets/graph.svg" />
+        <h:outputStylesheet library="styles" name="styles.css" />
+        <h:outputScript library="dist" name="startBundle.js" />
+    </h:head>
 
-<h:head>
-    <title><h:outputText value="#{msg['start.title']}"/></title>
-    <link rel="icon" type="image/x-icon" href="assets/graph.svg" />
-    <h:outputStylesheet library="styles" name="styles.css" />
-    <h:outputScript library="dist" name="startBundle.js" />
-</h:head>
+    <h:body>
+        <div id="hat">
+            <ui:include src="templates/theme.xhtml" />
+            <ui:include src="templates/locales.xhtml" />
+        </div>
 
-<h:body>
-    <div id="hat">
-        <ui:include src="templates/theme.xhtml" />
-        <ui:include src="templates/locales.xhtml" />
-    </div>
+        <table>
+            <tr>
+                <td>
+                    <h1>
+                        <h:outputText value="#{msg['index.myName']}"/> P3224 <h:outputText value="#{msg['index.variant']}"/> 24923
+                    </h1>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <ui:include src="templates/clock.xhtml" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h:form id="to_main">
+                        <h:commandButton action="main" value="#{msg['start.button']}" styleClass="startButton"/>
+                    </h:form>
+                </td>
+            </tr>
+        </table>
 
-    <table>
-        <tr>
-            <td>
-                <h1>
-                    <h:outputText value="#{msg['index.myName']}"/> P3224 <h:outputText value="#{msg['index.variant']}"/> 24923
-                </h1>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <ui:include src="templates/clock.xhtml" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <h:form id="to_main">
-                    <h:commandButton action="main" value="#{msg['start.button']}" styleClass="startButton"/>
-                </h:form>
-            </td>
-        </tr>
-    </table>
-
-</h:body>
+    </h:body>
+</f:view>
 
 </html>

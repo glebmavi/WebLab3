@@ -9,169 +9,171 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      lang="#{languageSwitcher.getLocale()}">
-
-<h:head>
-    <title>Lab3</title>
-    <link rel="icon" type="image/x-icon" href="assets/graph.svg" />
-    <h:outputStylesheet library="styles" name="styles.css" />
-    <h:outputScript library="dist" name="mainBundle.js" />
-    <script type="text/javascript">
-        function updateR(data) {
-            if (data.status === "begin") {
-                document.body.style.cursor = 'wait';
+      lang="#{languageSwitcher.language}">
+<f:view locale="#{languageSwitcher.locale}">
+    <h:head>
+        <title>Lab3</title>
+        <link rel="icon" type="image/x-icon" href="assets/graph.svg" />
+        <h:outputStylesheet library="styles" name="styles.css" />
+        <h:outputScript library="dist" name="mainBundle.js" />
+        <script type="text/javascript">
+            function updateR(data) {
+                if (data.status === "begin") {
+                    document.body.style.cursor = 'wait';
+                }
+                if (data.status === "success") {
+                    document.body.style.cursor = 'auto';
+                    const hiddenInput = document.getElementById("svgForm:hiddenSvgR");
+                    const event = new Event("valueChange");
+                    hiddenInput.dispatchEvent(event);
+                }
             }
-            if (data.status === "success") {
-                document.body.style.cursor = 'auto';
-                const hiddenInput = document.getElementById("svgForm:hiddenSvgR");
-                const event = new Event("valueChange");
-                hiddenInput.dispatchEvent(event);
+
+            function toggleActiveState(button) {
+                button.classList.toggle('active');
             }
-        }
+        </script>
+    </h:head>
 
-        function toggleActiveState(button) {
-            button.classList.toggle('active');
-        }
-    </script>
-</h:head>
+    <h:body>
+        <div id="hat">
+            <ui:include src="templates/theme.xhtml" />
+            <ui:include src="templates/locales.xhtml" />
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <ui:include src="assets/graph.svg" />
+                    <div id="svgX">X=</div>
+                    <div id="svgY">Y=</div>
+                    <h:form id="svgForm">
+                        <h:inputHidden id="hiddenSvgX" value="#{selectXBean.svgX}"/>
+                        <h:inputHidden id="hiddenSvgY" value="#{selectYBean.svgY}"/>
+                        <h:inputHidden id="hiddenSvgR" value="#{selectRBean.r}" validator="#{selectRBean.validate}"/>
 
-<h:body>
-    <div id="hat">
-        <ui:include src="templates/theme.xhtml" />
-        <ui:include src="templates/locales.xhtml" />
-    </div>
-    <table>
-        <tr>
-            <td>
-                <ui:include src="assets/graph.svg" />
-                <div id="svgX">X=</div>
-                <div id="svgY">Y=</div>
-                <h:form id="svgForm">
-                    <h:inputHidden id="hiddenSvgX" value="#{selectXBean.svgX}"/>
-                    <h:inputHidden id="hiddenSvgY" value="#{selectYBean.svgY}"/>
-                    <h:inputHidden id="hiddenSvgR" value="#{selectRBean.r}" validator="#{selectRBean.validate}"/>
+                        <h:commandButton rendered="true" type="submit" id="svgFormButton" style="display: none">
+                            <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.svgX, selectYBean.svgY, selectRBean.r)}" render="resultTable svgForm:hiddenSvgR" onevent="updateR"/>
+                        </h:commandButton>
+                        <h:message id="RMessage" for="hiddenSvgR" display="text" styleClass="YMessage"/>
+                    </h:form>
+                </td>
+            </tr>
 
-                    <h:commandButton rendered="true" type="submit" id="svgFormButton" style="display: none">
-                        <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.svgX, selectYBean.svgY, selectRBean.r)}" render="resultTable svgForm:hiddenSvgR" onevent="updateR"/>
-                    </h:commandButton>
-                    <h:message id="RMessage" for="hiddenSvgR" display="text" styleClass="YMessage"/>
-                </h:form>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <h:form id="form">
+                        <table id="formTable">
+                            <tr>
+                                <td class="valueMarker">
+                                    <h:outputText value="X= #{selectXBean.selectedX}" id="xValue"/>
+                                </td>
+                                <td class="formRow">
+                                    <ui:repeat value="#{selectableOptions.buttonXValues}" var="value">
+                                        <h:commandButton styleClass="valueButton xButton" value="#{value}" onclick="toggleActiveState(this)">
+                                            <f:ajax listener="#{selectXBean.toggle(value)}" render="form:xValue form:submitButton"/>
+                                        </h:commandButton>
+                                    </ui:repeat>
+                                </td>
+                                <td class="leftColumn"/>
+                            </tr>
 
-        <tr>
-            <td>
-                <h:form id="form">
-                    <table id="formTable">
-                        <tr>
-                            <td class="valueMarker">
-                                <h:outputText value="X= #{selectXBean.selectedX}" id="xValue"/>
-                            </td>
-                            <td class="formRow">
-                                <ui:repeat value="#{selectableOptions.buttonXValues}" var="value">
-                                    <h:commandButton styleClass="valueButton xButton" value="#{value}" onclick="toggleActiveState(this)">
-                                        <f:ajax listener="#{selectXBean.toggle(value)}" render="form:xValue form:submitButton"/>
-                                    </h:commandButton>
-                                </ui:repeat>
-                            </td>
-                            <td class="leftColumn"/>
-                        </tr>
+                            <tr>
+                                <td class="valueMarker">
+                                    <h:outputText value="Y= #{selectYBean.y}" id="yValue"/>
+                                </td>
+                                <td class="formRow">
+                                    <p:inputNumber id="Ytext" value="#{selectYBean.y}" validator="#{selectYBean.validate}" styleClass="textInput">
+                                        <f:ajax execute="Ytext" render="yValue YMessage form:submitButton"/>
+                                    </p:inputNumber>
+                                </td>
 
-                        <tr>
-                            <td class="valueMarker">
-                                <h:outputText value="Y= #{selectYBean.y}" id="yValue"/>
-                            </td>
-                            <td class="formRow">
-                                <p:inputNumber id="Ytext" value="#{selectYBean.y}" validator="#{selectYBean.validate}" styleClass="textInput">
-                                    <f:ajax execute="Ytext" render="yValue YMessage form:submitButton"/>
-                                </p:inputNumber>
-                            </td>
+                                <td class="leftColumn">
+                                    <h:message id="YMessage" for="Ytext" display="text" styleClass="YMessage"/>
+                                </td>
+                            </tr>
 
-                            <td class="leftColumn">
-                                <h:message id="YMessage" for="Ytext" display="text" styleClass="YMessage"/>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="valueMarker">
+                                    <h:outputText value="R= #{selectRBean.r}" id="rValue"/>
+                                </td>
+                                <td class="formRow">
+                                    <ui:repeat value="#{selectableOptions.linkRValues}" var="value">
+                                        <div class="valueButton inputField" style="padding: 0">
+                                            <p:commandLink styleClass="p_commandLink" value="#{value}">
+                                                <f:ajax listener="#{selectRBean.updateR(value)}" render="form:rValue svgForm:hiddenSvgR form:submitButton" onevent="updateR"/>
+                                            </p:commandLink>
+                                        </div>
+                                    </ui:repeat>
+                                </td>
+                                <td class="leftColumn"/>
+                            </tr>
 
-                        <tr>
-                            <td class="valueMarker">
-                                <h:outputText value="R= #{selectRBean.r}" id="rValue"/>
-                            </td>
-                            <td class="formRow">
-                                <ui:repeat value="#{selectableOptions.linkRValues}" var="value">
-                                    <div class="valueButton inputField" style="padding: 0">
-                                        <p:commandLink styleClass="p_commandLink" value="#{value}">
-                                            <f:ajax listener="#{selectRBean.updateR(value)}" render="form:rValue svgForm:hiddenSvgR form:submitButton" onevent="updateR"/>
-                                        </p:commandLink>
-                                    </div>
-                                </ui:repeat>
-                            </td>
-                            <td class="leftColumn"/>
-                        </tr>
+                            <tr>
+                                <td class="valueMarker"/>
+                                <td class="formRow">
+                                    <p:commandButton styleClass="submitButton" type="submit" id="submitButton" value="#{msg['index.send']}" disabled="#{submitButton.disable}">
+                                        <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.selectedX, selectYBean.y, selectRBean.r)}" render="resultTable" onevent="updateR" />
+                                    </p:commandButton>
+                                </td>
+                                <td class="leftColumn"/>
+                            </tr>
 
-                        <tr>
-                            <td class="valueMarker"/>
-                            <td class="formRow">
-                                <p:commandButton styleClass="submitButton" type="submit" id="submitButton" value="#{msg['index.send']}" disabled="#{submitButton.disable}">
-                                    <f:ajax execute="@form" listener="#{hitsControllerBean.newHit(selectXBean.selectedX, selectYBean.y, selectRBean.r)}" render="resultTable" onevent="updateR" />
-                                </p:commandButton>
-                            </td>
-                            <td class="leftColumn"/>
-                        </tr>
+                        </table>
 
-                    </table>
+                    </h:form>
+                </td>
+            </tr>
 
-                </h:form>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <h:form id="clearForm" >
+                        <h:commandButton id="resetTable" type="submit" value="#{msg['index.reset']}" styleClass="resetButton">
+                            <f:ajax execute="@form" listener="#{hitsControllerBean.clearHits()}" render="@form resultTable"/>
+                        </h:commandButton>
+                    </h:form>
 
-        <tr>
-            <td>
-                <h:form id="clearForm" >
-                    <h:commandButton id="resetTable" type="submit" value="#{msg['index.reset']}" styleClass="resetButton">
-                        <f:ajax execute="@form" listener="#{hitsControllerBean.clearHits()}" render="@form resultTable"/>
-                    </h:commandButton>
-                </h:form>
+                    <h:dataTable id="resultTable" value="#{hitsControllerBean.hits}" var="hit" styleClass="tableWithBorder" >
+                        <h:column>
+                            <f:facet name = "header">X</f:facet>
+                            <h:outputText value="#{hit.x}" styleClass="xTableData"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Y</f:facet>
+                            <h:outputText value="#{hit.y}" styleClass="yTableData"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">R</f:facet>
+                            <h:outputText value="#{hit.r}" styleClass="rTableData"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.hit']}"/></f:facet>
+                            <h:outputText value="#{hit.hit}" styleClass="isHitTableData"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.time']}"/></f:facet>
+                            <h:outputText value="#{hit.curr_date}" styleClass="tableDateTime">
+                                <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss z"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.executionTime']}"/></f:facet>
+                            #{hit.exec_time} ms
+                        </h:column>
+                    </h:dataTable>
 
-                <h:dataTable id="resultTable" value="#{hitsControllerBean.hits}" var="hit" styleClass="tableWithBorder" >
-                    <h:column>
-                        <f:facet name = "header">X</f:facet>
-                        <h:outputText value="#{hit.x}" styleClass="xTableData"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name = "header">Y</f:facet>
-                        <h:outputText value="#{hit.y}" styleClass="yTableData"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name = "header">R</f:facet>
-                        <h:outputText value="#{hit.r}" styleClass="rTableData"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.hit']}"/></f:facet>
-                        <h:outputText value="#{hit.hit}" styleClass="isHitTableData"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.time']}"/></f:facet>
-                        <h:outputText value="#{hit.curr_date}" styleClass="tableDateTime">
-                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss z"/>
-                        </h:outputText>
-                    </h:column>
-                    <h:column>
-                        <f:facet name = "header"><h:outputText value="#{msg['index.resultTable.executionTime']}"/></f:facet>
-                        #{hit.exec_time} ms
-                    </h:column>
-                </h:dataTable>
+                </td>
+            </tr>
 
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <h:form id="to_start">
+                        <h:commandButton action="start" value="#{msg['result.back']}" styleClass="backButton"/>
+                    </h:form>
+                </td>
+            </tr>
+        </table>
 
-        <tr>
-            <td>
-                <h:form id="to_start">
-                    <h:commandButton action="start" value="#{msg['result.back']}" styleClass="backButton"/>
-                </h:form>
-            </td>
-        </tr>
-    </table>
+    </h:body>
+</f:view>
 
-</h:body>
 </html>
